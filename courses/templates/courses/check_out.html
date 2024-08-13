@@ -1,0 +1,89 @@
+{% extends 'courses/base.html' %}
+{% load course_custom_tags %}
+{%block title%}
+Signup
+{% endblock %}
+
+{%block content%}
+
+<div class="container">
+    <br>
+
+
+    <br>
+    <div class="row ">
+        <div class="col mr-auto ">
+            <div class="card ml-auto" style="width: 18rem;">
+                <img class="card-img-top" src="{{course.thumbnail.url}}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{course.name}}</h5>
+                    <p class="card-text m-0 p-0">
+                        Save {{course.discount}}%
+                        <br>
+                        <span class="price">
+                            <del>{{course.price|rupee}}</del>
+                            &nbsp;
+
+                            <span>{% cal_sellprice course.price course.discount as value %} {{value|rupee}}</span>
+                        </span>
+
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="col ">
+            <div>
+                <p class="display-5">{{course.name}}</p>
+                <hr>
+                <p class="display-5">Payable Amount : <b>{% cal_sellprice course.price course.discount as value %}
+                        {{value|rupee}}</b></p>
+                <a class="btn btn-light border" href="?action=create_payment">Continue to Payment</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if order is not None %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+<script>
+
+    var options = {
+        "key": "rzp_test_42j4OYJtbp3sTL", // Enter the Key ID generated from the Dashboard
+        "name": "SKOLA",
+        "description": "Payment For {{course.name}}",
+        "image": "data:image/png;base64,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",
+        "order_id": "{{order.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "callback_url": "http://localhost:8000/verify_payment",
+        "prefill": {
+            "name": "{{user.first_name}}",
+            "email": "{{user.email}}",
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+
+    rzp1.open();
+
+</script>
+{% endif %}
+
+{% if error is not None %}
+
+<script>
+
+    window.onload = ()=>{
+        alert("{{error}}")
+    }
+
+</script>
+
+{% endif %}
+{%endblock%}

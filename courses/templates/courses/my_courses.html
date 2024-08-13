@@ -1,0 +1,87 @@
+{% extends 'courses/base.html' %}
+{% load course_custom_tags %}
+{% block title %}
+Courses
+{% endblock %}
+
+{% block css %}
+<style>
+    .navbar-brand,
+    .navbar-nav .nav-link {
+        color: white !important; /* White text color for navbar brand and links */
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: rgba(255, 255, 255, 0.75) !important; /* Lighter text color on hover */
+    }
+
+    .course-container {
+        margin-top: 20px; /* Add space between navbar and cards */
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px; /* Add space below the row */
+    }
+
+    .course-card {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add shadow effect */
+        width: 300px; /* Adjust the width of the card */
+    }
+
+    .course-card .card-img-top {
+        max-width: 100%; /* Set maximum width for the image */
+        height: auto; /* Allow the height to adjust proportionally */
+    }
+
+    .course-card .card-title {
+        font-size: 1.2rem; /* Increase title font size */
+        margin-bottom: 10px; /* Reduce space below title */
+    }
+
+    .course-card .price {
+        font-size: 1rem; /* Decrease price font size */
+    }
+
+    .course-card .btn {
+        border-radius: 0; /* Remove button border radius */
+    }
+
+    .my-courses-title {
+        font-size: 2rem;
+        margin-bottom: 0px;
+        text-align: center;
+        margin-up: 20px;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <p class="display-6 my-courses-title">My Courses </p>
+    <hr>
+    <div class="course-container">
+        <div class="row justify-content-center">
+            {% for uc in user_courses %}
+            <div class="col-lg-4 col-md-6 mb-4 d-flex justify-content-center">
+                <div class="card course-card">
+                    <img class="card-img-top" src="{{uc.course.thumbnail.url }}" alt="{{ course.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title mb-0">{{ uc.course.name }}</h5> <!-- Reduce margin-bottom -->
+                    </div>
+                    <div class="card-footer">
+                        <div class="row no-gutters">
+                            <div class="col border-right">
+                                <a href="/course/{{ uc.course.slug }}" class="btn btn-primary btn-block">Start Course</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
